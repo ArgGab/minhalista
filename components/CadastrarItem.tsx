@@ -37,8 +37,6 @@ export default function CadastrarItem({ itens, setItens }: any) {
         setAuxItens(JSON.parse(JSON.stringify(itens)))
     }
 
-
-
     useEffect(() => {
         if (itens) {
             UpdateAux();

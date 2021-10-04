@@ -14,9 +14,7 @@ export default function MainScreen() {
   const getData = async () => {
     try {
       AsyncStorage.getItem('itens').then((dados) => {
-        if (dados !== null) {
-          setItens(JSON.parse(dados))
-        }
+        setItens(JSON.parse(dados || "[]"))
       }
       )
     }
@@ -24,13 +22,28 @@ export default function MainScreen() {
     }
   }
 
+  const saveItens = async () => {
+    try {
+        const jsonValue = JSON.stringify(itens)
+        AsyncStorage.setItem('itens', jsonValue).then(() => {
+      })
+    } catch (e) {
+    }
+  }
+
+  useEffect(() => {
+    if (itens) {
+      saveItens()
+    }
+  }, [itens])
+
   useEffect(() => {
     getData();
   }, []);
 
   return (
     <>
-      <Header itens={itens} setItens={setItens} setModalVisible={setModalVisible} />
+      <Header setModalVisible={setModalVisible} />
       <CadastrarItem itens={itens} setItens={setItens} />
       <ModalItens modalVisible={modalVisible} setModalVisible={setModalVisible} itens={itens} setItens={setItens} />
     </>
